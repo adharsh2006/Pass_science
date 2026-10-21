@@ -1,0 +1,8 @@
+# Build artifacts and temporary files
+build/
+*.o
+*.obj
+*.pdb
+*.ilk
+.DS_Store
+__pycache__/

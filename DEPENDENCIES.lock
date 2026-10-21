@@ -1,0 +1,27 @@
+# Dependency & Toolchain Lock Record — Unified Engineering Workbench
+{
+  "project": "PassScienceUnifiedWorkbench",
+  "version": "1.0.0",
+  "cxx_standard": "C++17 (ISO/IEC 14882:2017)",
+  "backend_dependencies": [
+    {
+      "name": "C++17 Standard Library (STL + std::thread + std::filesystem)",
+      "version": "libstdc++ 12.2.0 / MSVC STL 14.38+",
+      "license": "GPL-3.0-with-GCC-exception / Apache-2.0-with-LLVM-exception",
+      "redistributable": true
+    }
+  ],
+  "frontend_dependencies": [
+    {
+      "name": "Vanilla HTML5 Canvas / ES6 JavaScript (Zero External CDNs)",
+      "version": "Native Browser Engine (Edge / Chrome / Firefox)",
+      "license": "MIT",
+      "offline_ready": true
+    }
+  ],
+  "build_toolchain_tested": {
+    "compiler": "GCC/G++ 12.2.0 (Debian 12.2.0-14+deb12u1) & MinGW-w64 / MSVC x64",
+    "cmake_minimum": "3.16",
+    "target_os": "Windows 11 x64 (Launch.exe PE32+ GUI) & Linux x86_64"
+  }
+}
