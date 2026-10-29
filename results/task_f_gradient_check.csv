@@ -1,0 +1,5 @@
+parameter,analytical_gradient,central_fd_gradient_eps_1e_6,abs_error,tolerance_1e_5,status
+w,-1.2094644752,-1.2094644753,1.0903e-10,1.0000e-05,PASS
+b,-1.2094644752,-1.2094644753,1.0903e-10,1.0000e-05,PASS
+v,-0.7106820475,-0.7106820474,5.2538e-11,1.0000e-05,PASS
+c,-1.5378828427,-1.5378828426,1.1175e-10,1.0000e-05,PASS

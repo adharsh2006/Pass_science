@@ -1,0 +1,7 @@
+seq,device_id,timestamp_iso,status_label,recovered_from_fault,retry_attempts,diagnostic_message
+1,MCU-STM32F407VG-01,2026-11-01T08:00:01Z,NOMINAL_SIMULATED,false,0,"[SIMULATED] Nominal MCU telemetry packet received over virtual USB-CDC."
+2,FPGA-XC7A35T-01,2026-11-01T08:00:01Z,NOMINAL_SIMULATED,false,0,"[SIMULATED] Nominal FPGA XADC telemetry read complete."
+3,JTAG-FT2232H-PROBE-01,2026-11-01T08:00:01Z,NOMINAL_SIMULATED,false,0,"[SIMULATED] JTAG boundary-scan chain healthy; 2 TAP devices enumerated."
+4,FPGA-XC7A35T-01,2026-11-01T08:00:02Z,RECOVERED_AFTER_TIMEOUT,true,2,"[SIMULATED] Transient SPI CS_N framing timeout detected; re-synchronized state machine on retry #2."
+5,JTAG-FT2232H-PROBE-01,2026-11-01T08:00:02Z,RECOVERED_TAP_RESET,true,2,"[SIMULATED] JTAG TDO CRC mismatch/timeout on scan; issued 5x TMS=1 Test-Logic-Reset recovery sequence and restored chain."
+6,FPGA-XC7A35T-01,2026-11-01T08:00:03Z,NOMINAL_SIMULATED,false,0,"[SIMULATED] Nominal FPGA XADC telemetry read complete."

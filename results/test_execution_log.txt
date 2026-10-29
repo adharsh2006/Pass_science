@@ -1,0 +1,34 @@
+[PASS] T01_STL_VALID            (Positive ) : Parse valid ASCII STL heat sink geometry
+       Evidence: triangles=36, area=0.031200 m^2
+[PASS] T02_STL_EMPTY            (Negative ) : Reject empty 0-byte STL file with actionable explanation
+       Evidence: Empty STL file ('data/empty_file.stl', 0 bytes). Expected an ASCII STL starting with 'solid <name>'.
+[PASS] T03_STL_NONFINITE        (Negative ) : Reject STL containing NaN vertex coordinate
+       Evidence: Line 5: Malformed or non-finite vertex coordinates.
+[PASS] T04_STL_DEGENERATE       (Negative ) : Reject collinear zero-area STL triangle
+       Evidence: Line 8: Degenerate zero-area triangle detected.
+[PASS] T05_CSV_VALID            (Positive ) : Parse valid synthetic nodal temperature CSV (240 nodes)
+       Evidence: nodes=240, T_range=[35.142800, 93.395500] C
+[PASS] T06_CSV_NONFINITE        (Negative ) : Reject CSV row containing NaN coordinate/temperature
+       Evidence: Line 3: Non-finite (NaN/Inf) or malformed numeric value in row.
+[PASS] T07_CSV_BAD_SCHEMA       (Negative ) : Reject CSV with wrong column header names
+       Evidence: Line 1: Invalid CSV schema header 'id,x,y,z,temp'. Required exact columns: node_id,x_m,y_m,z_m,temperature_C
+[PASS] T08_FEA_DIRICHLET_BC     (Numerical) : Verify exact satisfaction of Dirichlet BCs T(0)=100 C, T(L)=20 C
+       Evidence: T(0)=100.000000 C, T(L)=20.000000 C
+[PASS] T09_FEA_MIDPOINT_CONV    (Numerical) : Verify O(h^2) midpoint FE interpolation convergence across N=10,20,40,80
+       Evidence: Midpoint errors: N10=1.250000, N20=0.312500, N40=0.078125, N80=0.019531 C (exact 4x reduction)
+[PASS] T10_FEA_NEGATIVE_K       (Negative ) : Reject non-physical negative thermal conductivity k <= 0
+       Evidence: Thermal conductivity k must be finite and strictly positive (W/(m K)).
+[PASS] T11_BATCH_DETERMINISM    (Positive ) : Verify fixed-seed batch generator reproducibility
+       Evidence: 200 cases identical across independent runs with seed=20260415
+[PASS] T12_MULTICORE_AGREEMENT  (Numerical) : Verify serial vs 4-worker parallel max abs temp difference <= 1e-8 C
+       Evidence: max_abs_temp_diff_C=0.000000 C (<= 1e-8 C)
+[PASS] T13_HAL_DISCOVERY        (Positive ) : Discover MCU, FPGA, and JTAG debug adapter mock devices
+       Evidence: Discovered 3 distinct hardware categories with explicit SIMULATED flags
+[PASS] T14_HAL_FAULT_RECOVERY   (Negative ) : Reject telemetry when disconnected and recover cleanly from injected timeout
+       Evidence: [SIMULATED] Transient UART RX timeout (250 ms) detected on attempt #1; bus flushed and recovered cleanly on retry #2.
+[PASS] T15_BACKPROP_FINITE_DIFF (Numerical) : Verify analytical gradients against central finite differences (eps=1e-6, tol=1e-5)
+       Evidence: max_abs_error=0.000000 (<= 1e-5)
+[PASS] T16_BACKPROP_CONVERGENCE (Numerical) : Verify monotonic loss reduction over 100 gradient-descent steps
+       Evidence: J(0)=1.182542 -> J(1)=0.685774 -> J(100)=0.000000
+
+Test Summary: 16 / 16 tests PASSED.
