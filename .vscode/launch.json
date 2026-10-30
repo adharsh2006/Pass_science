@@ -1,0 +1,27 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "1-Click Launch Unified Engineering Workbench (Packaged)",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "${workspaceFolder}/Launch.exe",
+      "cwd": "${workspaceFolder}",
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      }
+    },
+    {
+      "name": "Run C++17 Backend & Verification Suite",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}/bin/workbench_cli",
+      "args": ["--data-dir", "data", "--out-dir", "results"],
+      "stopAtEntry": false,
+      "cwd": "${workspaceFolder}",
+      "externalConsole": false,
+      "MIMode": "gdb"
+    }
+  ]
+}

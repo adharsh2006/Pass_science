@@ -1,0 +1,25 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Build C++17 Backend & Tests",
+      "type": "shell",
+      "command": "g++",
+      "args": [
+        "-std=c++17", "-O3", "-Wall", "-Wextra", "-pthread",
+        "-Isrc/backend/include",
+        "src/backend/core/stl_csv_parser.cpp",
+        "src/backend/core/thermal_fea.cpp",
+        "src/backend/core/multicore_batch.cpp",
+        "src/backend/core/embedded_hal.cpp",
+        "src/backend/core/backprop.cpp",
+        "src/backend/app/workbench_cli.cpp",
+        "-o", "bin/workbench_cli"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    }
+  ]
+}
