@@ -11,6 +11,11 @@
 #include <fstream>
 #include <sstream>
 
+#if defined(_WIN32)
+#define WIN32_LEAN_AND_MEAN
+#include <windows.h>
+#endif
+
 namespace workbench {
 
 namespace {
@@ -123,6 +128,45 @@ void detectSystemHardware(std::string& cpu_model, int& phys_cores, int& logical_
     cpu_model = "x86_64 Processor";
     ram_gb = 8.0;
 
+#if defined(_WIN32)
+    // Windows: use GetSystemInfo for logical CPUs and GlobalMemoryStatusEx for RAM
+    // CPU model is read from registry HKLM\HARDWARE\DESCRIPTION\System\CentralProcessor\0
+    HKEY hKey;
+    if (RegOpenKeyExA(HKEY_LOCAL_MACHINE,
+        "HARDWARE\\DESCRIPTION\\System\\CentralProcessor\\0",
+        0, KEY_READ, &hKey) == ERROR_SUCCESS) {
+        char buf[256] = {};
+        DWORD len = sizeof(buf);
+        if (RegQueryValueExA(hKey, "ProcessorNameString", nullptr, nullptr,
+                             reinterpret_cast<LPBYTE>(buf), &len) == ERROR_SUCCESS) {
+            cpu_model = std::string(buf);
+            // trim leading spaces
+            std::size_t p = 0;
+            while (p < cpu_model.size() && cpu_model[p] == ' ') ++p;
+            if (p) cpu_model = cpu_model.substr(p);
+        }
+        RegCloseKey(hKey);
+    }
+    MEMORYSTATUSEX ms{};
+    ms.dwLength = sizeof(ms);
+    if (GlobalMemoryStatusEx(&ms)) {
+        ram_gb = static_cast<double>(ms.ullTotalPhys) / (1024.0 * 1024.0 * 1024.0);
+    }
+    // Physical cores: sum across processor groups via GetLogicalProcessorInformation
+    DWORD bufLen = 0;
+    GetLogicalProcessorInformation(nullptr, &bufLen);
+    if (bufLen > 0) {
+        std::vector<SYSTEM_LOGICAL_PROCESSOR_INFORMATION> info(bufLen / sizeof(SYSTEM_LOGICAL_PROCESSOR_INFORMATION));
+        if (GetLogicalProcessorInformation(info.data(), &bufLen)) {
+            int phys = 0;
+            for (const auto& entry : info) {
+                if (entry.Relationship == RelationProcessorCore) ++phys;
+            }
+            if (phys > 0) phys_cores = phys;
+        }
+    }
+#else
+    // Linux: read /proc/cpuinfo and /proc/meminfo
     std::ifstream cpuinfo("/proc/cpuinfo");
     if (cpuinfo.is_open()) {
         std::string line;
@@ -154,6 +198,7 @@ void detectSystemHardware(std::string& cpu_model, int& phys_cores, int& logical_
             ram_gb = kb / (1024.0 * 1024.0);
         }
     }
+#endif
 }
 
 } // namespace

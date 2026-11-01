@@ -10,6 +10,7 @@
 #include <string>
 #include <cmath>
 #include <iomanip>
+#include <sstream>
 
 using namespace workbench;
 
@@ -175,7 +176,10 @@ int main(int argc, char** argv) {
         auto chk = ManualBackpropEngine::verifyCentralFiniteDifferences(init, 1.0, 2.0, 1.0e-6);
         record("T15_BACKPROP_FINITE_DIFF", "Numerical", "Verify analytical gradients against central finite differences (eps=1e-6, tol=1e-5)",
                chk.passed && chk.max_abs_error <= 1.0e-5,
-               "max_abs_error=" + std::to_string(chk.max_abs_error) + " (<= 1e-5)");
+               "max_abs_error=" + [&](){
+                   std::ostringstream oss; oss << std::scientific << std::setprecision(4) << chk.max_abs_error;
+                   return oss.str();
+               }() + " (<= 1e-5) -> " + (chk.passed ? "PASS" : "FAIL"));
     }
     {
         auto exp = ManualBackpropEngine::runTaskFExperiment(1.0, 2.0, 0.1, 100);

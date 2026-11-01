@@ -1,6 +1,26 @@
 #include "embedded_hal.hpp"
+#include <ctime>
+#include <sstream>
+#include <iomanip>
 
 namespace workbench {
+
+namespace {
+std::string isoTimestamp(int seq) {
+    // Produce a deterministic ISO-8601 timestamp offset by seq seconds from a fixed base
+    std::tm base_tm{};
+    base_tm.tm_year = 126;  // 2026 - 1900
+    base_tm.tm_mon  = 10;   // November (0-indexed)
+    base_tm.tm_mday = 1;
+    base_tm.tm_hour = 8;
+    base_tm.tm_min  = 0;
+    base_tm.tm_sec  = seq;
+    std::mktime(&base_tm);
+    std::ostringstream oss;
+    oss << std::put_time(&base_tm, "%Y-%m-%dT%H:%M:%SZ");
+    return oss.str();
+}
+} // namespace
 
 DeviceDescriptor Stm32McuMockAdapter::discover() const {
     DeviceDescriptor d;
@@ -35,7 +55,7 @@ bool Stm32McuMockAdapter::disconnect() {
 TelemetryPacket Stm32McuMockAdapter::readTelemetry() {
     TelemetryPacket pkt;
     pkt.device_id = "MCU-STM32F407VG-01";
-    pkt.timestamp_iso = "2026-11-01T08:00:0" + std::to_string(++seq_) + "Z";
+    pkt.timestamp_iso = isoTimestamp(++seq_);
 
     if (!connected_) {
         pkt.success = false;
@@ -96,7 +116,7 @@ bool Artix7FpgaMockAdapter::disconnect() {
 TelemetryPacket Artix7FpgaMockAdapter::readTelemetry() {
     TelemetryPacket pkt;
     pkt.device_id = "FPGA-XC7A35T-01";
-    pkt.timestamp_iso = "2026-11-01T08:00:0" + std::to_string(++seq_) + "Z";
+    pkt.timestamp_iso = isoTimestamp(++seq_);
 
     if (!connected_) {
         pkt.success = false;
@@ -156,7 +176,7 @@ bool Ft2232JtagMockAdapter::disconnect() {
 TelemetryPacket Ft2232JtagMockAdapter::readTelemetry() {
     TelemetryPacket pkt;
     pkt.device_id = "JTAG-FT2232H-PROBE-01";
-    pkt.timestamp_iso = "2026-11-01T08:00:0" + std::to_string(++seq_) + "Z";
+    pkt.timestamp_iso = isoTimestamp(++seq_);
 
     if (!connected_) {
         pkt.success = false;

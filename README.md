@@ -11,12 +11,16 @@
 ### Windows 11 x64 One-Click Launch (Zero Installation Required)
 1. Extract `Adharsh_Workbench.zip` to any local folder (relative paths only; no administrator rights, PowerShell, terminal commands, internet connection, or package installation required).
 2. Double-click **`Launch.exe`** in the root folder.
-3. `Launch.exe` (a native Windows 11 x64 PE32+ GUI executable linked solely against standard Windows system libraries `SHELL32.dll` and `KERNEL32.dll`) immediately launches the **Unified Engineering Workbench** interface (`src/frontend/index.html`) pre-loaded with verified C++17 outputs and interactive 3D/numerical modules.
+3. `Launch.exe` (a native Windows 11 x64 PE32+ GUI executable linked solely against standard Windows system libraries `SHELL32.dll` and `KERNEL32.dll`) immediately launches the **Unified Engineering Workbench** interface (`src/frontend/index.html`) in the system default browser — fully offline, pre-loaded with verified C++17 output data and interactive 3D/numerical modules.
+
+> **Note on pre-built `bin/` binaries**: `bin/workbench_cli` and `bin/workbench_tests` are **Linux x86_64 ELF executables** compiled during development (GCC 12.2.0 on Debian 12). They are included as reference execution evidence alongside their verbatim stdout logs in `results/cli_execution_log.txt` and `results/test_execution_log.txt`. They **cannot** be run directly on Windows without WSL. For Windows execution, see the CMake source-build instructions in Section 4.
 
 ### VS Code / Antigravity One-Click Run Configuration
 1. Open the extracted folder in **VS Code** or **Antigravity**.
 2. Optional Extension Prerequisite for C++ source debugging: *C/C++ Extension (`ms-vscode.cpptools`)* or *CMake Tools (`ms-vscode.cmake-tools`)*. The standalone packaged launcher requires **no editor extensions**.
 3. Open the **Run and Debug** panel (`Ctrl+Shift+D`), select **"1-Click Launch Unified Engineering Workbench (Packaged)"** (defined in `.vscode/launch.json`), and press **F5** (one action).
+   - This configuration uses `"type": "shell"` to run `Launch.exe` directly on Windows without requiring Node.js.
+   - The two additional configurations (`Run C++17 Backend` / `Run C++17 Test Suite`) target the Linux ELF binaries under GDB on Linux/WSL.
 
 ---
 
@@ -106,3 +110,5 @@ g++ -std=c++17 -O3 -Wall -Wextra -pthread -Isrc/backend/include     src/backend/
 2. **1D Thermal FEA**: Assumes steady-state 1D axial conduction with uniform cross-section $A$, constant isotropic conductivity $k$, uniform volumetric heat generation $q$, and adiabatic lateral surfaces.
 3. **Multicore Hardware Roofline**: Parallel speedup is bounded by available physical cores on the host machine (measured $1.514	imes$ on a 2-vCPU VM; scaling beyond physical core count shows expected thread-scheduling saturation).
 4. **Simulated Embedded Hardware**: All MCU (`STM32F407VG`), FPGA (`XC7A35T`), and JTAG (`FT2232H`) interactions in `embedded_hal.cpp` are deterministic software mocks clearly tagged `SIMULATED`.
+
+5. **Pre-built Binaries Platform**: `bin/workbench_cli` and `bin/workbench_tests` are Linux x86_64 ELF executables (GCC 12.2.0, Debian 12). They cannot be run directly on Windows without WSL. Use the CMake source-build in Section 4 for native Windows binaries. Execution logs are preserved in `results/`.

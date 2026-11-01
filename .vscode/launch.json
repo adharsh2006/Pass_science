@@ -3,17 +3,18 @@
   "configurations": [
     {
       "name": "1-Click Launch Unified Engineering Workbench (Packaged)",
-      "type": "node-terminal",
+      "type": "shell",
       "request": "launch",
       "command": "${workspaceFolder}/Launch.exe",
       "cwd": "${workspaceFolder}",
       "presentation": {
         "reveal": "always",
         "panel": "dedicated"
-      }
+      },
+      "comment": "Runs the standalone Windows x64 launcher (no editor extension required). On Windows 11, Launch.exe opens src/frontend/index.html in the default browser with no terminal, no build, no admin rights."
     },
     {
-      "name": "Run C++17 Backend & Verification Suite",
+      "name": "Run C++17 Backend & Verification Suite (Linux/WSL)",
       "type": "cppdbg",
       "request": "launch",
       "program": "${workspaceFolder}/bin/workbench_cli",
@@ -21,7 +22,20 @@
       "stopAtEntry": false,
       "cwd": "${workspaceFolder}",
       "externalConsole": false,
-      "MIMode": "gdb"
+      "MIMode": "gdb",
+      "comment": "Debugs the pre-built Linux ELF backend under GDB (requires Linux or WSL). For Windows source build: cmake -B build -DCMAKE_BUILD_TYPE=Release && cmake --build build"
+    },
+    {
+      "name": "Run C++17 Test Suite (Linux/WSL)",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}/bin/workbench_tests",
+      "args": ["--data-dir", "data", "--out-dir", "results"],
+      "stopAtEntry": false,
+      "cwd": "${workspaceFolder}",
+      "externalConsole": false,
+      "MIMode": "gdb",
+      "comment": "Runs the 16-test verification suite under GDB on Linux/WSL. Expected output: 16/16 tests PASSED."
     }
   ]
 }
