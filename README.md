@@ -108,7 +108,7 @@ g++ -std=c++17 -O3 -Wall -Wextra -pthread -Isrc/backend/include     src/backend/
 
 1. **CAD/ANSYS Scope**: Supports ASCII STL and the specified 5-column nodal CSV schema only; binary STL, native CAD BREP solids (`.step`/`.iges`), and binary ANSYS `.rst` files are outside scope per brief. Mesh-to-point-cloud spatial registration is visual only.
 2. **1D Thermal FEA**: Assumes steady-state 1D axial conduction with uniform cross-section $A$, constant isotropic conductivity $k$, uniform volumetric heat generation $q$, and adiabatic lateral surfaces.
-3. **Multicore Hardware Roofline**: Parallel speedup is bounded by available physical cores on the host machine (measured $1.514	imes$ on a 2-vCPU VM; scaling beyond physical core count shows expected thread-scheduling saturation).
+3. **Multicore Hardware Roofline**: Parallel speedup is bounded by available physical cores on the host machine (measured $1.514x$ on a 2-vCPU VM; scaling beyond physical core count shows expected thread-scheduling saturation).
 4. **Simulated Embedded Hardware**: All MCU (`STM32F407VG`), FPGA (`XC7A35T`), and JTAG (`FT2232H`) interactions in `embedded_hal.cpp` are deterministic software mocks clearly tagged `SIMULATED`.
 
 5. **Pre-built Binaries Platform**: `bin/workbench_cli` and `bin/workbench_tests` are Linux x86_64 ELF executables (GCC 12.2.0, Debian 12). They cannot be run directly on Windows without WSL. Use the CMake source-build in Section 4 for native Windows binaries. Execution logs are preserved in `results/`.
