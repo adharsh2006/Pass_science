@@ -2,7 +2,7 @@
 
 **Candidate Repository**: [https://github.com/adharsh2006/Pass_science](https://github.com/adharsh2006/Pass_science)  
 **Target Platform**: Windows 11 x64 (One-Click `Launch.exe` PE32+ Standalone GUI) & Cross-Platform C++17 (`CMake 3.16+`)  
-**Recorded Effort**: 44.5 Hours across 12 calendar days
+**Scope**: Complete Prototype Implementation & Verification (Tasks A–F)
 
 ---
 
